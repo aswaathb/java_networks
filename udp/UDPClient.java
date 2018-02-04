@@ -38,7 +38,14 @@ public class UDPClient {
 		countTo = Integer.parseInt(args[2]);
 
 
-		// TO-DO: Construct UDP client class and try to send messages
+		//// TO-DO: Construct UDP client class and try to send messages
+        try(
+            UDPClient sendClient = new UDPClient();
+            sendClient.testLoop(serverAddr,recvPort,countTo);
+            )
+        catch(exception e){
+            e.printStackTrace();
+        }
 	}
 
 	public UDPClient() {
