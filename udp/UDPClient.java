@@ -1,6 +1,3 @@
-/*
- * Created on 01-Mar-2016
- */
 package udp;
 
 import java.io.IOException;
@@ -49,13 +46,20 @@ public class UDPClient {
 	}
 
 	public UDPClient() {
-		// TO-DO: Initialise the UDP socket for sending data
+		//// TO-DO: Initialise the UDP socket for sending data
+        try{
+            sendSoc = new DatagramSocket();
+        } catch (SocketException e){
+            e.printStackTrace();
+        }
 	}
 
 	private void testLoop(InetAddress serverAddr, int recvPort, int countTo) {
 		int				tries = 0;
 
 		// TO-DO: Send the messages to the server
+
+
 	}
 
 	private void send(String payload, InetAddress destAddr, int destPort) {
