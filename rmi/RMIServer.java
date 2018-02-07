@@ -40,7 +40,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
         //        any missing messages
         if(msg.messageNum==msg.totalMessages-1){
             System.out.println("Efficiency:" + received + "/" + totalMessages);
-        }
+		
+		for(int i=0; i<msg.totalMessages; i++){		
+			if(receivedMessages[i]==0){
+				System.out.println("message lost at" + i + "th point");
+		}
+		}        
+	}
         
     }
     
