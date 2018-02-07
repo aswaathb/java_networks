@@ -9,7 +9,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Arrays;
-
+import java.rmi.AlreadyBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.io.*;
 import common.*;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerI {
@@ -58,7 +60,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
             rebindServer(urlServer, myserver);
             
         } catch (RemoteException e) {
-            System.out.println("issue with binding");
+            e.printStackTrace();
         }
         // TO-DO: Bind to RMI registry
         
@@ -69,7 +71,21 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
         // TO-DO:
         // Start / find the registry (hint use LocateRegistry.createRegistry(...)
         // If we *know* the registry is running we could skip this (eg run rmiregistry in the start script)
+	try {
+		LocateRegistry.createRegistry(1099);
+	} catch(RemoteException e){
+		e.printStackTrace();	
+	}
 
+	try {
+		Naming.bind(serverURL,server);
+	} catch(AlreadyBoundException e){
+		e.printStackTrace();
+	} catch(RemoteException e){
+		e.printStackTrace();
+	} catch(MalformedURLException e){
+		e.printStackTrace();
+	}
         // TO-DO:
         // Now rebind the server to the registry (rebind replaces any existing servers bound to the serverURL)
         // Note - Registry.rebind (as returned by createRegistry / getRegistry) does something similar but
