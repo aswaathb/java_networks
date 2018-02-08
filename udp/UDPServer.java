@@ -9,6 +9,10 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
+import java.util.Timer;
+import java.io.IOException;
+import java.util.*;
+import java.io.*;
 
 import common.MessageInfo;
 
@@ -26,6 +30,18 @@ public class UDPServer {
 
 		// TO-DO: Receive the messages and process them by calling processMessage(...).
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
+		try{
+			recvSoc.setSoTimeout(3000);
+			while(true){
+				pacData = new byte [256];
+				pacSize = pacData.length();
+				pac=new DatagramPacket(pacData,pacSize);
+				try{
+					recvSoc.recieve(pac);
+					String rcmsg = new String(pac.getData(), 0, pac.getLength());
+				}
+			}
+		}
 
 	}
 
