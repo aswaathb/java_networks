@@ -42,7 +42,7 @@ public class UDPClient {
 		try{
 			UDPClient newclient= new UDPClient();
 			client.testLoop(serverAddr,recvPort,countTo);
-		} catch(Exception e){
+		} catch(exception e){
 			e.printStackTrace();
 		}
 	}
