@@ -41,8 +41,8 @@ public class UDPClient {
 		// TO-DO: Construct UDP client class and try to send messages
 		try{
 			UDPClient newclient= new UDPClient();
-			client.testLoop(serverAddr,recvPort,countTo);
-		} catch(exception e){
+			newclient.testLoop(serverAddr,recvPort,countTo);
+		} catch(Exception e){
 			e.printStackTrace();
 		}
 	}
@@ -63,7 +63,6 @@ public class UDPClient {
 			MessageInfo packet = new MessageInfo(countTo,i);
 			String Message= String.valueOf(countTo) + "+" + String.valueOf(i);
 			send(Message, serverAddr,recvPort);
-			clientSocket.close();
 		}
 	}
 
@@ -72,6 +71,7 @@ public class UDPClient {
 		byte[]				pktData;
 		DatagramPacket		pkt;
 
+		pktData = payload.getBytes();
 		// TO-DO: build the datagram packet and send it to the server
 		pkt = new DatagramPacket(pktData, pktData.length, destAddr, destPort);
 		try {

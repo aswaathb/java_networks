@@ -21,6 +21,8 @@ public class UDPServer {
 	private DatagramSocket recvSoc;
 	private int totalMessages = -1;
 	private int[] receivedMessages;
+	private int msgnum = -1;
+	private int received = 0;
 	private boolean close;
 
 	private void run() {
@@ -30,20 +32,38 @@ public class UDPServer {
 
 		// TO-DO: Receive the messages and process them by calling processMessage(...).
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
-		try{
+		try {
 			recvSoc.setSoTimeout(3000);
-			while(true){
-				pacData = new byte [256];
-				pacSize = pacData.length();
-				pac=new DatagramPacket(pacData,pacSize);
-				try{
-					recvSoc.recieve(pac);
-					String rcmsg = new String(pac.getData(), 0, pac.getLength());
+			while (true) {
+				pacData = new byte[256];
+				pacSize = pacData.length;
+				pac = new DatagramPacket(pacData, pacSize);
+				try {
+					recvSoc.receive(pac);
+					String recStr= new String(pac.getData(), 0, pac.getLength());
+					processMessage(recStr);
+					if (msgnum == totalMessages-1 || received==totalMessages){
+						sysstatus();
+					}
+				}
+				catch (SocketTimeoutException e) {
+					if (totalMessages!=-1)
+						e.printStackTrace();
 				}
 			}
 		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+}
+	public void sysstatus(){
 
+		System.out.println("Found " + received + " packets" + "Out of " + totalMessages + " packets sent");
+
+		received = 0;
+		totalMessages = -1;
 	}
+
 
 	public void processMessage(String data) {
 
@@ -92,12 +112,12 @@ public class UDPServer {
 	public UDPServer(int rp) {
 		// TO-DO: Initialise UDP socket for receiving data
 		try {
-			port = rp;
-			socket = new DatagramSocket(port);
-		} catch (SocketException e) {
-			System.out.println("Error: Could not create socket on port " + port);
+			recvSoc = new DatagramSocket(rp);
 		}
-		close = false;
+		catch (IOException e) {
+			System.out.println("Exception caught when trying to listen on port " + rp);
+			System.out.println(e.getMessage());
+		}
 		// Done Initialisation
 		System.out.println("UDPServer ready");
 	}
@@ -113,10 +133,9 @@ public class UDPServer {
 
 		// TO-DO: Construct Server object and start it by calling run().
 		UDPServer udpsrv = new UDPServer(recvPort);
-		try {
 			udpsrv.run();
-		} catch (SocketTimeoutException e) {}
+
 	}
 	}
 
-}
+
