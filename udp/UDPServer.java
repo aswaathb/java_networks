@@ -20,10 +20,10 @@ public class UDPServer {
 
 	private DatagramSocket recvSoc;
 	private int totalMessages = -1;
-	private int[] receivedMessages;
 	private int msgnum = -1;
-	private int received = 0;
+	private ArrayList<Integer> receivedMessages = new ArrayList<Integer>();
 	private boolean close;
+	private int received = 0;
 
 	private void run() {
 		int				pacSize;
@@ -69,41 +69,29 @@ public class UDPServer {
 
 		MessageInfo msg = null;
 
-		// TO-DO: Use the data to construct a new MessageInfo object
 		try {
 			msg = new MessageInfo(data);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		// TO-DO: On receipt of first message, initialise the receive buffer
-		if (receivedMessages == null) {
-			totalMessages = msg.totalMessages;
-			receivedMessages = new int[totalMessages];
+
+
+		msgnum = msg.messageNum;
+		totalMessages = msg.totalMessages;
+
+		if (totalMessages > receivedMessages.size()){
+			receivedMessages.ensureCapacity(totalMessages);
 		}
-		// TO-DO: Log receipt of the message
-		receivedMessages[msg.messageNum] = 1;
-		// TO-DO: If this is the last expected message, then identify
-		//        any missing messages
-		if (msg.messageNum + 1 == msg.totalMessages) {
-			close = true;
 
-			String s = "Lost packet numbers: ";
-			int count = 0;
-			for (int i = 0; i < totalMessages; i++) {
-				if (receivedMessages[i] != 1) {
-					count++;
-					s = s + " " + (i+1) + ", ";
-				}
-			}
+		if (msgnum < totalMessages && !receivedMessages.contains(msgnum) && received < totalMessages && msgnum!=totalMessages-1) {
+			receivedMessages.add(msgnum);
+			received++;
+		}
 
-			if (count == 0) s = s + "None";
-
-			System.out.println("Messages processed...");
-			System.out.println("Of " + msg.totalMessages + ", " + (msg.totalMessages - count) + " received successfully...");
-			System.out.println("Of " + msg.totalMessages + ", " + count + " failed...");
-			System.out.println(s);
-			System.out.println("Test finished.");
+		else if (msgnum==totalMessages-1) {
+			receivedMessages.add(msgnum);
+			received++;
 		}
 
 	}
