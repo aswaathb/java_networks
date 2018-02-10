@@ -33,7 +33,7 @@ public class UDPServer {
 		// TO-DO: Receive the messages and process them by calling processMessage(...).
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
 		try {
-			recvSoc.setSoTimeout(3000);
+			recvSoc.setSoTimeout(30000);
 			while (true) {
 				pacData = new byte[256];
 				pacSize = pacData.length;
