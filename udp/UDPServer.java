@@ -96,7 +96,7 @@ public class UDPServer {
 		}
 
 		if (msgnum < totalMessages && !receivedMessages.contains(msgnum) && received < totalMessages && msgnum!=totalMessages-1) {
-			receivedMessages.add(msgnum);
+			receivedMessages.set(msgnum,1);
 			received++;
 		}
 
