@@ -34,6 +34,7 @@ public class UDPServer {
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
 		try {
 			recvSoc.setSoTimeout(300000);
+			int inc=0;
 			while (true) {
 				pacData = new byte[256];
 				pacSize = pacData.length;
@@ -41,7 +42,8 @@ public class UDPServer {
 				try {
 					recvSoc.receive(pac);
 					String recStr= new String(pac.getData(), 0, pac.getLength());
-					processMessage(recStr);
+					processMessage(recStr, inc);
+					inc++;
 					if (msgnum == totalMessages-1 || received==totalMessages){
 						sysstatus();
 					}
@@ -76,7 +78,7 @@ public class UDPServer {
 	}
 
 
-	public void processMessage(String data) {
+	public void processMessage(String data, int inc) {
 
 		MessageInfo msg = null;
 
@@ -96,12 +98,12 @@ public class UDPServer {
 		}
 
 		if (msgnum < totalMessages && !receivedMessages.contains(msgnum) && received < totalMessages && msgnum!=totalMessages-1) {
-			receivedMessages.set(msgnum,1);
+			receivedMessages.set(inc, 1);
 			received++;
 		}
 
 		else if (msgnum==totalMessages-1) {
-			receivedMessages.set(msgnum,1);
+			receivedMessages.set(inc,1);
 			received++;
 		}
 
