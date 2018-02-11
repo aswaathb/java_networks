@@ -62,6 +62,17 @@ public class UDPServer {
 		System.out.println("Efficiency of Server = " + efficiency + "%");
 		received = 0;
 		totalMessages = -1;
+		String s = "Lost packet numbers: ";
+		int count = 0;
+		for (int i = 0; i < totalMessages; i++) {
+			if (receivedMessages.get(i) != 1) {
+				count++;
+				s = s + " " + (i+1) + ", ";
+			}
+		}
+
+		if (count == 0) s = s + "None";
+		System.out.println(s);
 	}
 
 
@@ -93,17 +104,6 @@ public class UDPServer {
 			receivedMessages.add(msgnum);
 			received++;
 		}
-		String s = "Lost packet numbers: ";
-		int count = 0;
-		for (int i = 0; i < totalMessages; i++) {
-			if (receivedMessages.get(i) != 1) {
-				count++;
-				s = s + " " + (i+1) + ", ";
-			}
-		}
-
-		if (count == 0) s = s + "None";
-		System.out.println(s);
 
 	}
 
