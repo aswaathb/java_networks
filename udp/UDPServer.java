@@ -55,11 +55,11 @@ public class UDPServer {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-}
+	}
 	public void sysstatus(){
 		System.out.println("Received " + received + " out of " + totalMessages + " messages");
-	   	double efficiency = ((double) received/ (double) totalMessages)*100;
-	    	System.out.println("Efficiency of Server = " + efficiency + "%");
+		double efficiency = ((double) received/ (double) totalMessages)*100;
+		System.out.println("Efficiency of Server = " + efficiency + "%");
 		received = 0;
 		totalMessages = -1;
 	}
@@ -120,9 +120,7 @@ public class UDPServer {
 
 		// TO-DO: Construct Server object and start it by calling run().
 		UDPServer udpsrv = new UDPServer(recvPort);
-			udpsrv.run();
+		udpsrv.run();
 
 	}
-	}
-
-
+}
