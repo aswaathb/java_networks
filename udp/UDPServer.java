@@ -101,7 +101,7 @@ public class UDPServer {
 		}
 
 		else if (msgnum==totalMessages-1) {
-			receivedMessages.add(msgnum);
+			receivedMessages.set(msgnum,1);
 			received++;
 		}
 
