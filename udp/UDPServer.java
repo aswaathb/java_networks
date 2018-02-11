@@ -33,7 +33,7 @@ public class UDPServer {
 		// TO-DO: Receive the messages and process them by calling processMessage(...).
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
 		try {
-			recvSoc.setSoTimeout(30000);
+			recvSoc.setSoTimeout(300000);
 			while (true) {
 				pacData = new byte[256];
 				pacSize = pacData.length;
@@ -57,9 +57,9 @@ public class UDPServer {
 		}
 }
 	public void sysstatus(){
-
-		System.out.println("Found " + received + " packets" + "Out of " + totalMessages + " packets sent");
-
+		System.out.println("Received " + received + " out of " + totalMessages + " messages");
+	   	double efficiency = ((double) received/ (double) totalMessages)*100;
+	    	System.out.println("Efficiency of Server = " + efficiency + "%");
 		received = 0;
 		totalMessages = -1;
 	}
@@ -106,8 +106,7 @@ public class UDPServer {
 			System.out.println("Exception caught when trying to listen on port " + rp);
 			System.out.println(e.getMessage());
 		}
-		// Done Initialisation
-		System.out.println("UDPServer ready");
+
 	}
 
 	public static void main(String args[]) {

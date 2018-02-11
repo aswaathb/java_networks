@@ -28,24 +28,25 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
         // TO-DO: On receipt of first message, initialise the receive buffer
         if(receivedMessages == null) {
             receivedMessages = new int[msg.totalMessages];
-            totalMessages=msg.totalMessages;
+            totalMessages=msg.totalMessages+received;
         }
         // TO-DO: Log receipt of the message
-        if(msg.messageNum>msg.totalMessages){
-            return;
-        }
+        
         receivedMessages[msg.messageNum]=1;
         received++;
         // TO-DO: If this is the last expected message, then identify
         //        any missing messages
         if(msg.messageNum==msg.totalMessages-1){
-            System.out.println("Efficiency:" + received + "/" + totalMessages);
+            System.out.println("Received " + received + " out of " + totalMessages + " messages");
+	    double efficiency = ((double) received/ (double) totalMessages)*100;
+	    System.out.println("Efficiency of Server = " + efficiency + "%");
 		
 		for(int i=0; i<msg.totalMessages; i++){		
 			if(receivedMessages[i]==0){
 				System.out.println("message lost at" + i + "th point");
 		}
-		}        
+		} 
+		received=0;       
 	}
         
     }
