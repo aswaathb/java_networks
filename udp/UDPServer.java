@@ -89,7 +89,7 @@ public class UDPServer {
 		}
 
 		if (getlost== null) {
-			getlost = new int[totalMessages];
+			getlost = new int[msg.totalMessages];
 		}
 		getlost[msg.messageNum] = 1;
 		msgnum = msg.messageNum;
