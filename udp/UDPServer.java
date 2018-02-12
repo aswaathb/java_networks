@@ -21,6 +21,7 @@ public class UDPServer {
 	private DatagramSocket recvSoc;
 	private int totalMessages = -1;
 	private int msgnum = -1;
+	private int[] getlost;
 	private ArrayList<Integer> receivedMessages = new ArrayList<Integer>();
 	private boolean close;
 	private int received = 0;
@@ -64,8 +65,8 @@ public class UDPServer {
 		totalMessages = -1;
 		String s = "Lost packet numbers: ";
 		int count = 0;
-		for (int i = 0; i < totalMessages; i++) {
-			if (receivedMessages.get(i) != 1) {
+		for (int i = 0; i < getlost.length; i++) {
+			if (getlost[i] != 1) {
 				count++;
 				s = s + " " + (i+1) + ", ";
 			}
@@ -87,7 +88,10 @@ public class UDPServer {
 			e.printStackTrace();
 		}
 
-
+		if (getlost== null) {
+			getlost = new int[msg.totalMessages];
+		}
+		getlost[msg.messageNum] = 1;
 		msgnum = msg.messageNum;
 		totalMessages = msg.totalMessages;
 
